@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Musical Triangle</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      #triangle {
+        width: 200px; /* Увеличенный размер треугольника */
+        margin-right: 20px;
+        animation: none;
+      }
+
+      #stick {
+        width: 200px; /* Увеличенный размер палочки */
+        cursor: pointer;
+        position: absolute;
+        right: 10px; /* Сместить палочку вправо */
+        top: 20px;
+        animation: none;
+      }
+
+      @keyframes hit {
+        0% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(-45deg);
+        }
+        100% {
+          transform: rotate(0deg);
+        }
+      }
+
+      @keyframes vibrate {
+        0% {
+          transform: translateX(0);
+        }
+        20% {
+          transform: translateX(-3px);
+        }
+        40% {
+          transform: translateX(3px);
+        }
+        60% {
+          transform: translateX(-3px);
+        }
+        80% {
+          transform: translateX(3px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img id="triangle" src="triangle.png" alt="Musical Triangle" />
+      <img id="stick" src="stick.png" alt="Triangle Stick" />
+    </div>
+    <audio id="triangle-sound" src="beep.mp3"></audio>
+    <script>
+      document.getElementById("stick").addEventListener("click", function () {
+        var sound = document.getElementById("triangle-sound");
+        var stick = document.getElementById("stick");
+        var triangle = document.getElementById("triangle");
+
+        stick.style.animation = "hit 0.3s";
+        triangle.style.animation =
+          "vibrate 0.2s"; /* Уменьшена продолжительность анимации */
+        sound.currentTime = 0;
+        sound.play();
+
+        stick.addEventListener(
+          "animationend",
+          function () {
+            stick.style.animation = "none";
+          },
+          { once: true }
+        );
+
+        triangle.addEventListener(
+          "animationend",
+          function () {
+            triangle.style.animation = "none";
+          },
+          { once: true }
+        );
+      });
+    </script>
+  </body>
+</html>
